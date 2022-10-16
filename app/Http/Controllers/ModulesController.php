@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Modules;
+use App\Models\Module;
 use App\Models\Note;
 use Illuminate\Http\Request;
 
@@ -109,5 +110,16 @@ class ModulesController extends Controller
     {
         $module = Modules::where('id', $id)->get();
         return $module;
+    }
+    //to display the grades based on the module's name
+    public function view($id) 
+    {
+        $note = Module::with([
+            'note' => function($query) {
+            $query->with('etudiant');
+        }])
+            ->where('id', $id)
+            ->get();
+        return $note;
     }
 }
