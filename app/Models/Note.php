@@ -9,7 +9,7 @@ class Note extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    public function etudiant($id) {
+    public function etudiant() {
         return $this->belongsTo(Etudiant::class);
     }
 

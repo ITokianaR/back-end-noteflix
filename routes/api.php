@@ -34,11 +34,11 @@ Route::get('/liste', [EtudiantController::class, 'get_student'])->name('etudiant
 // All modules API route
 Route::post('/modules', [ModulesController::class, 'create'])->name('modules.create');
 Route::get('/details/{id}', [ModulesController::class, 'details'])->name('modules.detail');
+Route::get('/view/{id}', [ModulesController::class, 'view'])->name('modules.view');
 
 // All note API route
 Route::get('/note/{id}', [NoteController::class, 'resultat'])->name('resultat.all');
 Route::get('/test', [NoteController::class, 'test'])->name('note.test');
-
 
 // All niveau API route
 Route::get('/niveau', [NiveauController::class, 'index'])->name('niveau.all');

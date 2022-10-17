@@ -12,7 +12,7 @@ class Modules extends Model
     //protected $fillable = ['nom_module', 'code', 'ue', 'coeff', 'niveau_id'];
     
     public function module() {
-        return $this->hasMany(App\Models\Note::class);
+        return $this->hasMany(Note::class);
     }
     public function Niveau() {
         return $this->belongsTo(App\Models\Niveau::class);
