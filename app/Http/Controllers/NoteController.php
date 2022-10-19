@@ -16,26 +16,25 @@ class NoteController extends Controller
 
      //this funciton is to display the grades of the student, api: api/note
     public function resultat($id) {
-            $note = Etudiant::with([
-                'notes' => function($query) use($id) {
-                $query->where('etudiant_id', $id)->with('module');
-            }])
-                ->where('id', $id)
-                ->get();
+        $note = Etudiant::with([
+            'notes' => function($query) use($id) {
+            $query->where('etudiant_id', $id)->with('module');
+        }])
+            ->where('id', $id)
+            ->get();
 
+        
+        $test = 'hello';
+        $avg = Note::where('etudiant_id', $id)->avg('note');
 
-            $moyenne = Note::where('etudiant_id', 1)->avg('note');
+        $mark = [];
+        $mark[] = [
+            'note'=> $note,
+            'average'=> ['moyenne' => $avg,
+            'avg' => $test]
+        ];
 
-                /*foreach ($result as $res) {
-                    $data = $res -> $moyenne;
-                }*/
-
-                /*return $resultat = [
-                    1 => $result,
-                    2 => $etudiant
-                ];*/
-
-            return $note;
+        return $mark;
 
     }
     
@@ -109,10 +108,13 @@ class NoteController extends Controller
     {
         //
     }
-    public function test()
-    {
-        $note = Note::find(1)->etudiant;
 
-        return $note;
+    public function get_note_average()
+    {
+        $avg = Note::where('etudiant_id', 2)->avg('note');
+
+        return $data = [
+            'moyenne' => $avg
+        ];
     }
 }

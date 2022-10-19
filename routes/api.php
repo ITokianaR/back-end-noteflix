@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EtudiantController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ModulesController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NiveauController;
@@ -21,8 +22,13 @@ use App\Http\Controllers\NiveauController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//auth api routes
+Route::post('/auth/register', [AuthController::class, 'createUser']);
+Route::post('/auth/login', [AuthController::class, 'loginUser']);
+
 // CRUD api
-Route::apiResource('etudiant', EtudiantController::class);
+Route::apiResource('etudiant', EtudiantController::class)->middleware('auth:sanctum');;
 Route::apiResource('modules', ModulesController::class);
 Route::apiResource('niveau', NiveauController::class);
 
@@ -38,7 +44,7 @@ Route::get('/view/{id}', [ModulesController::class, 'view'])->name('modules.view
 
 // All note API route
 Route::get('/note/{id}', [NoteController::class, 'resultat'])->name('resultat.all');
-Route::get('/test', [NoteController::class, 'test'])->name('note.test');
+Route::get('/avg', [NoteController::class, 'get_note_average'])->name('note.average');
 
 // All niveau API route
 Route::get('/niveau', [NiveauController::class, 'index'])->name('niveau.all');
