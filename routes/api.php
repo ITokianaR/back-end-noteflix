@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\ModulesController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\NiveauController;
+use App\Http\Controllers\SubscriberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +49,6 @@ Route::get('/avg', [NoteController::class, 'get_note_average'])->name('note.aver
 
 // All niveau API route
 Route::get('/niveau', [NiveauController::class, 'index'])->name('niveau.all');
+
+// Email API
+Route::post('/subscribe', [SubscriberController::class, 'subscribe']);
