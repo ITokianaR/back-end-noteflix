@@ -36,6 +36,7 @@ Route::apiResource('note', NoteController::class);
 
 //Dashboard api
 Route::get('/statwomen', [EtudiantController::class, 'get_women_by_year']);
+Route::get('/statstud', [EtudiantController::class, 'get_number_student']);
 
 // All students API route
 Route::get('/all', [EtudiantController::class, 'all_etudiant'])->name('etudiant.all');

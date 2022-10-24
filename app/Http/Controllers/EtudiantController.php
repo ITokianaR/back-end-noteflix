@@ -90,4 +90,13 @@ class EtudiantController extends Controller
 
         return $w;
     }
+
+    public function get_number_student() {
+        $number = DB::table('etudiants')
+            ->select(DB::raw('annee as year, count(id) as UserGain'))
+            ->groupBy('annee')
+            ->get();
+
+        return $number;
+    }
 }
