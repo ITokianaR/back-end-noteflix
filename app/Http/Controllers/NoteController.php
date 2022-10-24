@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Note;
 use App\Models\Etudiant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NoteController extends Controller
 {
@@ -20,6 +21,7 @@ class NoteController extends Controller
             'notes' => function($query) use($id) {
             $query->where('etudiant_id', $id)->with('module');
         }])
+        
             ->where('id', $id)
             ->get();
 
@@ -27,14 +29,7 @@ class NoteController extends Controller
         $test = 'hello';
         $avg = Note::where('etudiant_id', $id)->avg('note');
 
-        $mark = [];
-        $mark[] = [
-            'note'=> $note,
-            'average'=> ['moyenne' => $avg,
-            'avg' => $test]
-        ];
-
-        return $mark;
+        return $note;
 
     }
     
@@ -56,7 +51,25 @@ class NoteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $module = Note::find(1)->module;
+
+        $note = Note::create([
+            'note' => $request->note,
+            'etudiant_id' => $request->etudiant_id,
+            'module_id' => $request->module_id,
+        ]);
+
+        if ($note) {
+            return ([
+                'success' => true,
+                'message' => 'grades successfully added.'
+            ]);
+        } else {
+            return ([
+                'success' => false,
+                'message' => 'error while inserting datas.'
+            ]);
+        };
     }
 
     /**
@@ -109,12 +122,14 @@ class NoteController extends Controller
         //
     }
 
-    public function get_note_average()
+    public function get_note_average($id)
     {
-        $avg = Note::where('etudiant_id', 2)->avg('note');
+        $avg = DB::table('notes')
+            ->select(DB::raw('avg(note) as moyenne, etudiant_id'))
+            ->groupBy('etudiant_id')
+            ->where('etudiant_id', $id)
+            ->get();
 
-        return $data = [
-            'moyenne' => $avg
-        ];
+        return $avg;
     }
 }

@@ -29,9 +29,13 @@ Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
 // CRUD api
-Route::apiResource('etudiant', EtudiantController::class)->middleware('auth:sanctum');;
+Route::apiResource('etudiant', EtudiantController::class)->middleware('auth:sanctum');
 Route::apiResource('modules', ModulesController::class);
 Route::apiResource('niveau', NiveauController::class);
+Route::apiResource('note', NoteController::class);
+
+//Dashboard api
+Route::get('/statwomen', [EtudiantController::class, 'get_women_by_year']);
 
 // All students API route
 Route::get('/all', [EtudiantController::class, 'all_etudiant'])->name('etudiant.all');
@@ -45,7 +49,7 @@ Route::get('/view/{id}', [ModulesController::class, 'view'])->name('modules.view
 
 // All note API route
 Route::get('/note/{id}', [NoteController::class, 'resultat'])->name('resultat.all');
-Route::get('/avg', [NoteController::class, 'get_note_average'])->name('note.average');
+Route::get('/avg/{id}', [NoteController::class, 'get_note_average'])->name('note.average');
 
 // All niveau API route
 Route::get('/niveau', [NiveauController::class, 'index'])->name('niveau.all');
